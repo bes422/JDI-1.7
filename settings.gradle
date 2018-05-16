@@ -1,0 +1,12 @@
+rootProject.name = 'jdi-uitest-framework'
+include ':jdi-commons'
+include ':jdi-matchers'
+include ':jdi-uitest-core'
+include ':jdi-uitest-web'
+include ':jdi-uitest-webtests'
+include ':jdi-uitest-web-examples'
+
+project(':jdi-commons').projectDir = "$rootDir/JDI/jdi-commons" as File
+project(':jdi-matchers').projectDir = "$rootDir/JDI/jdi-matchers" as File
+project(':jdi-uitest-core').projectDir = "$rootDir/JDI/jdi-uitest-core" as File
+project(':jdi-uitest-web').projectDir = "$rootDir/JDI/jdi-uitest-web" as File
