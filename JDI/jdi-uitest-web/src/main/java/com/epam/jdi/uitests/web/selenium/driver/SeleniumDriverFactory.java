@@ -37,6 +37,8 @@ import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.ie.InternetExplorerDriver;
 import org.openqa.selenium.remote.DesiredCapabilities;
 import org.openqa.selenium.remote.RemoteWebDriver;
+import org.openqa.selenium.safari.SafariDriver;
+import org.openqa.selenium.safari.SafariOptions;
 
 import java.util.List;
 import java.util.Set;
@@ -227,6 +229,11 @@ public class SeleniumDriverFactory implements IDriver<WebDriver> {
                     return webDriverSettings.apply(driverType.getWebDriverObject(capabilities));
                 });
             case SAFARI:
+                return registerDriver(driverType,
+                        () -> {
+                            SafariOptions options = new SafariOptions(driverType.getDesiredCapabilities(downloadsDir));
+                            return webDriverSettings.apply(new SafariDriver(options));
+                        });
 
         }
         throw exception("Unknown driver: " + driverType);
