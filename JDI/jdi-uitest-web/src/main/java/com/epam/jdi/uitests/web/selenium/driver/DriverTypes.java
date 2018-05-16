@@ -25,6 +25,7 @@ import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.firefox.FirefoxOptions;
 import org.openqa.selenium.firefox.FirefoxProfile;
 import org.openqa.selenium.ie.InternetExplorerDriver;
+import org.openqa.selenium.ie.InternetExplorerOptions;
 import org.openqa.selenium.remote.CapabilityType;
 import org.openqa.selenium.remote.DesiredCapabilities;
 import org.openqa.selenium.safari.SafariDriver;
@@ -127,6 +128,7 @@ public enum DriverTypes implements DriverSetup  {
             DesiredCapabilities capabilities = DesiredCapabilities.internetExplorer();
             capabilities.setCapability(CapabilityType.TAKES_SCREENSHOT, true);
             capabilities.setCapability(CapabilityType.ACCEPT_SSL_CERTS, true);
+            capabilities.setCapability(CapabilityType.ACCEPT_INSECURE_CERTS, true);
             capabilities.setCapability(InternetExplorerDriver.REQUIRE_WINDOW_FOCUS, true);
             capabilities.setCapability(InternetExplorerDriver.UNEXPECTED_ALERT_BEHAVIOR, true);
             capabilities.setCapability(InternetExplorerDriver.ENABLE_PERSISTENT_HOVERING, false);
@@ -137,7 +139,7 @@ public enum DriverTypes implements DriverSetup  {
         }
 
         public WebDriver getWebDriverObject(DesiredCapabilities capabilities) {
-            return new InternetExplorerDriver(capabilities);
+            return new InternetExplorerDriver(new InternetExplorerOptions(capabilities));
         }
     },
     SAFARI("safari") {

@@ -1,4 +1,4 @@
-rootProject.name = 'jdi-uitest-framework'
+rootProject.name = 'jdi-1.7'
 include ':jdi-commons'
 include ':jdi-matchers'
 include ':jdi-uitest-core'
