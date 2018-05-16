@@ -135,6 +135,7 @@ public enum DriverTypes implements DriverSetup  {
             capabilities.setCapability(InternetExplorerDriver.IE_ENSURE_CLEAN_SESSION, true);
             capabilities.setJavascriptEnabled(true);
             capabilities.setCapability(InternetExplorerDriver.NATIVE_EVENTS, false);
+            capabilities.setCapability(CapabilityType.ACCEPT_SSL_CERTS, true);
             return capabilities;
         }
 
