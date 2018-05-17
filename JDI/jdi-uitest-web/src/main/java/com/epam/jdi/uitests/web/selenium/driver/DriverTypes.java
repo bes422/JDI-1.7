@@ -123,6 +123,7 @@ public enum DriverTypes implements DriverSetup  {
     },
     IE("ie") {
         public DesiredCapabilities getDesiredCapabilities(String downloadsDir) {
+            downloadFileDir = downloadsDir;
             DesiredCapabilities capabilities = DesiredCapabilities.internetExplorer();
             capabilities.setCapability(CapabilityType.TAKES_SCREENSHOT, true);
             capabilities.setCapability(CapabilityType.ACCEPT_SSL_CERTS, true);
@@ -146,6 +147,7 @@ public enum DriverTypes implements DriverSetup  {
     },
     SAFARI("safari") {
         public DesiredCapabilities getDesiredCapabilities(String downloadsDir) {
+            downloadFileDir = downloadsDir;
             DesiredCapabilities capabilities = DesiredCapabilities.safari();
             SafariOptions safariOptions = new SafariOptions();
             capabilities.setCapability(SafariOptions.CAPABILITY, safariOptions);
