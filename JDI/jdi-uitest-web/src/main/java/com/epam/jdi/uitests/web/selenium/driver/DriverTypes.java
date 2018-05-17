@@ -34,27 +34,26 @@ import org.openqa.selenium.safari.SafariOptions;
 import java.util.HashMap;
 import java.util.Map;
 
+import static com.epam.jdi.uitests.web.selenium.driver.WebDriverProvider.FOLDER_PATH;
+import static com.epam.jdi.uitests.web.selenium.driver.WebDriverProvider.getGeckoDriverPath;
+import static java.lang.System.setProperty;
+
 /**
  * Created by Roman_Iovlev on 7/31/2015.
  */
 public enum DriverTypes implements DriverSetup  {
     FIREFOX("firefox") {
         public DesiredCapabilities getDesiredCapabilities(String downloadsDir) {
-            DesiredCapabilities capabilities = DesiredCapabilities.firefox();
-            capabilities.setBrowserName("firefox");
-            capabilities.setCapability(CapabilityType.TAKES_SCREENSHOT, true);
             downloadFileDir = downloadsDir;
-            return capabilities;
+            return null;
         }
 
         public WebDriver getWebDriverObject(DesiredCapabilities capabilities) {
-            FirefoxOptions firefoxOptions = new FirefoxOptions(capabilities);
-            firefoxOptions.setProfile(getFirefoxProfile(downloadFileDir));
-            return new FirefoxDriver(firefoxOptions);
-//            return new FirefoxDriver(new FirefoxBinary(), getFirefoxProfile(downloadFileDir), capabilities);
+            return new FirefoxDriver(new FirefoxOptions().setProfile(getFirefoxProfile(downloadFileDir)));
         }
 
         public FirefoxProfile getFirefoxProfile(String downloadsDir) {
+            setProperty("webdriver.gecko.driver", getGeckoDriverPath(FOLDER_PATH));
             FirefoxProfile firefoxProfile = new FirefoxProfile();
             firefoxProfile.setAssumeUntrustedCertificateIssuer(false);
             firefoxProfile.setPreference("browser.download.folderList", 2);
@@ -62,7 +61,6 @@ public enum DriverTypes implements DriverSetup  {
             firefoxProfile.setPreference("browser.helperApps.alwaysAsk.force", false);
             firefoxProfile.setPreference("browser.helperApps.neverAsk.saveToDisk", "application/xls;text/csv;text/plain");
             firefoxProfile.setPreference("browser.download.dir", downloadsDir);
-
             firefoxProfile.setPreference("print.always_print_silent", "true");
             firefoxProfile.setPreference("print.show_print_progress", "false");
             firefoxProfile.setPreference("browser.startup.homepage", "about:blank");
@@ -135,12 +133,15 @@ public enum DriverTypes implements DriverSetup  {
             capabilities.setCapability(InternetExplorerDriver.IE_ENSURE_CLEAN_SESSION, true);
             capabilities.setJavascriptEnabled(true);
             capabilities.setCapability(InternetExplorerDriver.NATIVE_EVENTS, false);
-            capabilities.setCapability(CapabilityType.ACCEPT_SSL_CERTS, true);
             return capabilities;
         }
 
         public WebDriver getWebDriverObject(DesiredCapabilities capabilities) {
-            return new InternetExplorerDriver(new InternetExplorerOptions(capabilities));
+            InternetExplorerOptions ieOptions = new InternetExplorerOptions(capabilities);
+            ieOptions.introduceFlakinessByIgnoringSecurityDomains();
+            ieOptions.takeFullPageScreenshot();
+            ieOptions.takeFullPageScreenshot();
+            return new InternetExplorerDriver(ieOptions);
         }
     },
     SAFARI("safari") {

@@ -214,10 +214,9 @@ public class SeleniumDriverFactory implements IDriver<WebDriver> {
                 return registerDriver(driverType,
                         () -> {
                             downloadGeckoDriver(driversPath);
-                            DesiredCapabilities capabilities = driverType.getDesiredCapabilities(downloadsDir);
-                            capabilities.setCapability(PAGE_LOAD_STRATEGY, pageLoadStrategy);
-                            setProperty("webdriver.gecko.driver", getGeckoDriverPath(driversPath));
-                            return webDriverSettings.apply(driverType.getWebDriverObject(capabilities));
+                            driverType.getDesiredCapabilities(downloadsDir);
+//                            capabilities.setCapability(PAGE_LOAD_STRATEGY, pageLoadStrategy);
+                            return webDriverSettings.apply(driverType.getWebDriverObject(null));
                         });
             case IE:
                 return registerDriver(driverType, () -> {
