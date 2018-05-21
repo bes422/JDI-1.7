@@ -37,6 +37,11 @@ import java.util.Map;
 import static com.epam.jdi.uitests.web.selenium.driver.WebDriverProvider.FOLDER_PATH;
 import static com.epam.jdi.uitests.web.selenium.driver.WebDriverProvider.getGeckoDriverPath;
 import static java.lang.System.setProperty;
+import static org.openqa.selenium.PageLoadStrategy.NORMAL;
+import static org.openqa.selenium.ie.InternetExplorerDriver.UNEXPECTED_ALERT_BEHAVIOR;
+import static org.openqa.selenium.remote.CapabilityType.ACCEPT_SSL_CERTS;
+import static org.openqa.selenium.remote.CapabilityType.PAGE_LOAD_STRATEGY;
+import static org.openqa.selenium.remote.CapabilityType.SUPPORTS_JAVASCRIPT;
 
 /**
  * Created by Roman_Iovlev on 7/31/2015.
@@ -85,7 +90,7 @@ public enum DriverTypes implements DriverSetup  {
             options.setExperimentalOption("prefs", chromePrefs);
             DesiredCapabilities capabilities = DesiredCapabilities.chrome();
             capabilities.setBrowserName("chrome");
-            capabilities.setCapability(CapabilityType.ACCEPT_SSL_CERTS, true);
+            capabilities.setCapability(ACCEPT_SSL_CERTS, true);
             capabilities.setCapability(ChromeOptions.CAPABILITY, options);
             return capabilities;
         }
@@ -126,10 +131,10 @@ public enum DriverTypes implements DriverSetup  {
             downloadFileDir = downloadsDir;
             DesiredCapabilities capabilities = DesiredCapabilities.internetExplorer();
             capabilities.setCapability(CapabilityType.TAKES_SCREENSHOT, true);
-            capabilities.setCapability(CapabilityType.ACCEPT_SSL_CERTS, true);
+            capabilities.setCapability(ACCEPT_SSL_CERTS, true);
             capabilities.setCapability(CapabilityType.ACCEPT_INSECURE_CERTS, true);
             capabilities.setCapability(InternetExplorerDriver.REQUIRE_WINDOW_FOCUS, true);
-            capabilities.setCapability(InternetExplorerDriver.UNEXPECTED_ALERT_BEHAVIOR, true);
+            capabilities.setCapability(UNEXPECTED_ALERT_BEHAVIOR, true);
             capabilities.setCapability(InternetExplorerDriver.ENABLE_PERSISTENT_HOVERING, false);
             capabilities.setCapability(InternetExplorerDriver.IE_ENSURE_CLEAN_SESSION, true);
             capabilities.setJavascriptEnabled(true);
@@ -138,11 +143,17 @@ public enum DriverTypes implements DriverSetup  {
         }
 
         public WebDriver getWebDriverObject(DesiredCapabilities capabilities) {
-            InternetExplorerOptions ieOptions = new InternetExplorerOptions(capabilities);
-            ieOptions.introduceFlakinessByIgnoringSecurityDomains();
-            ieOptions.takeFullPageScreenshot();
-            ieOptions.takeFullPageScreenshot();
-            return new InternetExplorerDriver(ieOptions);
+            InternetExplorerOptions cap = new InternetExplorerOptions();
+            cap.introduceFlakinessByIgnoringSecurityDomains();
+            cap.ignoreZoomSettings();
+            //cap.setCapability("requireWindowFocus", true);
+            cap.setPageLoadStrategy(NORMAL);
+            cap.takeFullPageScreenshot();
+            cap.setCapability(ACCEPT_SSL_CERTS, true);
+            cap.destructivelyEnsureCleanSession();
+            cap.setCapability(UNEXPECTED_ALERT_BEHAVIOR, true);
+            cap.is(SUPPORTS_JAVASCRIPT);
+            return new InternetExplorerDriver(cap);
         }
     },
     SAFARI("safari") {
@@ -152,7 +163,7 @@ public enum DriverTypes implements DriverSetup  {
             SafariOptions safariOptions = new SafariOptions();
             capabilities.setCapability(SafariOptions.CAPABILITY, safariOptions);
             capabilities.setCapability(CapabilityType.SUPPORTS_WEB_STORAGE, true);
-            capabilities.setCapability(CapabilityType.ACCEPT_SSL_CERTS, true);
+            capabilities.setCapability(ACCEPT_SSL_CERTS, true);
             capabilities.setCapability(CapabilityType.ACCEPT_INSECURE_CERTS, true);
             capabilities.setCapability(CapabilityType.TAKES_SCREENSHOT, true);
             return capabilities;
@@ -165,7 +176,7 @@ public enum DriverTypes implements DriverSetup  {
 
     private static DesiredCapabilities getChromeMobileEmulatorCapabilities(String deviseName) {
         DesiredCapabilities capabilities = DesiredCapabilities.chrome();
-        capabilities.setCapability(CapabilityType.ACCEPT_SSL_CERTS, true);
+        capabilities.setCapability(ACCEPT_SSL_CERTS, true);
         Map<String, String> mobileEmulation = new HashMap<>();
         mobileEmulation.put("deviceName", deviseName);
         Map<String, Object> chromeOptions = new HashMap<>();

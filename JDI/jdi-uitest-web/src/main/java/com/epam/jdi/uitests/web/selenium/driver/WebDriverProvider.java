@@ -35,7 +35,7 @@ public class WebDriverProvider {
     }
 
     static final String getIEDriverPath(String folderPath) {
-        return folderPath + "/IEDriverServer.exe";
+        return Paths.get(folderPath ,"IEDriverServer.exe").toString();
     }
 
     private static final String CHROME_STORAGE = "http://chromedriver.storage.googleapis.com/";
@@ -47,7 +47,7 @@ public class WebDriverProvider {
     private static final String GECKO_NIX_DRIVER = "linux64.tar.gz";
     private static final String GECKO_WIN_DRIVER = "win32.zip";
     public static String DRIVER_VERSION = "";
-    private static final String IE_WIN_DRIVER_URL = "http://selenium-release.storage.googleapis.com/{0}/IEDriverServer_x64_{0}.1.zip";
+    private static final String IE_WIN_DRIVER_URL = "http://selenium-release.storage.googleapis.com/{0}/IEDriverServer_x64_{0}.0.zip";
 
     private static Boolean isInStock(String driver) {
         File path = new File(FOLDER_PATH);
@@ -116,7 +116,7 @@ public class WebDriverProvider {
     }
 
     private static String ieDriverDownloadUrl() {
-        return format(IE_WIN_DRIVER_URL, DRIVER_VERSION.equals("") ? "2.53" : DRIVER_VERSION);
+        return format(IE_WIN_DRIVER_URL, DRIVER_VERSION.equals("") ? "3.12" : DRIVER_VERSION);
     }
 
     private static void downloadDriver(String driverName, String driverPath, String zipName, String downloadUrl) {
@@ -165,7 +165,7 @@ public class WebDriverProvider {
 
     public static void downloadIEDriver(String folderPath) {
         downloadDriver("IEDriver", getIEDriverPath(folderPath),
-                format("IEDriverServer_x64_%s.1.zip", DRIVER_VERSION.equals("") ? "3.9" : DRIVER_VERSION),
+                format("IEDriverServer_x64_{0}.0.zip", DRIVER_VERSION.equals("") ? "3.12" : DRIVER_VERSION),
                 ieDriverDownloadUrl());
     }
 

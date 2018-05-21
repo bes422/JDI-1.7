@@ -36,6 +36,7 @@ public final class WebDriverUtils {
         asserter.ignore(() -> killByName("chromedriver.exe"));
         asserter.ignore(() -> killByName("geckodriver.exe"));
         asserter.ignore(() -> killByName("IEDriverServer.exe"));
+        asserter.ignore(() -> killByName("Command line server for the IE driver"));
         asserter.ignore(() -> killByName("MicrosoftWebDriver.exe"));
     }
 }

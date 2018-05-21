@@ -26,6 +26,7 @@ import org.testng.annotations.BeforeSuite;
 import java.io.IOException;
 import java.time.Instant;
 import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
 
@@ -59,11 +60,7 @@ public class TestNGBase {
 
     @AfterSuite(alwaysRun = true)
     public static void jdiTearDown() throws IOException {
-        LocalDateTime date = Instant.ofEpochMilli(21 * 3600000 + getTestRunTime())
-                .atZone(ZoneId.systemDefault())
-                .toLocalDateTime();
-        String formattedTime = DateTimeFormatter.ofPattern("HH:mm:ss.S").format(date);
-
+        String formattedTime = DateTimeFormatter.ofPattern("HH:mm:ss.S").format(LocalTime.ofSecondOfDay(Math.toIntExact(getTestRunTime() / 1000)));
         logger.info("Test run finished. " + LINE_BREAK + "Total test run time: " + formattedTime);
 
         if (WebSettings.killBrowser.toLowerCase().contains("after"))
