@@ -60,7 +60,7 @@ public class TestNGBase {
 
     @AfterSuite(alwaysRun = true)
     public static void jdiTearDown() throws IOException {
-        String formattedTime = DateTimeFormatter.ofPattern("HH:mm:ss.S").format(LocalTime.ofSecondOfDay(Math.toIntExact(getTestRunTime() / 1000)));
+        String formattedTime = DateTimeFormatter.ofPattern("HH:mm:ss.S").format(LocalTime.ofNanoOfDay(getTestRunTime()*1000000));
         logger.info("Test run finished. " + LINE_BREAK + "Total test run time: " + formattedTime);
 
         if (WebSettings.killBrowser.toLowerCase().contains("after"))
